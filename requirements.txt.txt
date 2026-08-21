@@ -1,7 +1,0 @@
-streamlit==1.62.0
-pandas
-numpy
-scikit-learn
-joblib
-plotly
-shap==0.48.0
