@@ -575,33 +575,45 @@ except Exception as e:
 
 st.subheader("💡 AI Explanation")
 
-try:
+if explanation is not None and len(explanation) >= 2:
 
-    top_features = explanation.head(2)
+    try:
 
-    feature_1 = top_features.iloc[0]["Feature"]
-    feature_2 = top_features.iloc[1]["Feature"]
+        top_features = explanation.head(2)
 
-    impact_1 = top_features.iloc[0]["Impact"]
-    impact_2 = top_features.iloc[1]["Impact"]
+        feature_1 = top_features.iloc[0]["Feature"]
+        feature_2 = top_features.iloc[1]["Feature"]
 
-    direction_1 = "increased" if impact_1 > 0 else "decreased"
-    direction_2 = "increased" if impact_2 > 0 else "decreased"
+        impact_1 = top_features.iloc[0]["Impact"]
+        impact_2 = top_features.iloc[1]["Impact"]
+
+        direction_1 = "increased" if impact_1 > 0 else "decreased"
+        direction_2 = "increased" if impact_2 > 0 else "decreased"
+
+        st.info(
+            f"🔎 The model predicted **{prediction}**. "
+            f"The strongest factors were **{feature_1}** and **{feature_2}**. "
+            f"{feature_1} {direction_1} the model's tendency toward this prediction, "
+            f"while {feature_2} {direction_2} it."
+        )
+
+    except Exception as e:
+
+        st.error(
+            f"⚠️ AI Explanation Error: {e}"
+        )
+
+else:
 
     st.info(
-        f"🔎 The model predicted **{prediction}**. "
-        f"The strongest factors were **{feature_1}** and **{feature_2}**. "
-        f"{feature_1} {direction_1} the model's tendency toward this prediction, "
-        f"while {feature_2} {direction_2} it."
+        "ℹ️ AI Explanation is unavailable because the individual "
+        "XAI explanation could not be generated."
     )
 
-except Exception as e:
 
-    st.error(
-        f"⚠️ AI Explanation Error: {e}"
-    )
-
+# =========================================================
 # OPERATING STATUS
+# =========================================================
 
 if current > 0.1:
 
@@ -614,7 +626,11 @@ elif current < -0.1:
 else:
 
     operating_status = "⏸ IDLE"
+
+
+# =========================================================
 # CURRENT BATTERY PARAMETERS
+# =========================================================
 
 st.header("📊 Current Battery Parameters")
 
