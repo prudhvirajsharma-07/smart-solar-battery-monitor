@@ -507,7 +507,14 @@ st.caption(
 
 st.subheader("🔍 Why did the model make this prediction?")
 
+explanation = None
+
 try:
+
+    if shap is None:
+        raise ImportError(
+            "SHAP is not installed. Add 'shap==0.52.0' to requirements.txt."
+        )
 
     explainer = shap.TreeExplainer(model)
 
